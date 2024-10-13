@@ -18,3 +18,80 @@ User Input: hi
 AI Response: Hello! How can I assist you today?
 Response Time: 4579.87 ms
 
+User Input: Hi
+AI Response: Hello! How's it going?
+Response Time: 6498.39 ms
+
+User Input: how's it goind=g
+AI Response: I'm doing great, thanks! How about you?
+Response Time: 5943.49 ms
+
+User Input: Code for python calculator
+AI Response: Here’s a basic Python calculator script that can perform addition, subtraction, multiplication, and division. This code takes two numbers and an operator as input and performs the corresponding operation:
+
+```python
+# Python Calculator
+
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y == 0:
+        return "Error! Division by zero."
+    return x / y
+
+def calculator():
+    print("Select operation:")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+
+    choice = input("Enter choice(1/2/3/4): ")
+
+    if choice in ['1', '2', '3', '4']:
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+
+        if choice == '1':
+            print(f"{num1} + {num2} = {add(num1, num2)}")
+
+        elif choice == '2':
+            print(f"{num1} - {num2} = {subtract(num1, num2)}")
+
+        elif choice == '3':
+            print(f"{num1} * {num2} = {multiply(num1, num2)}")
+
+        elif choice == '4':
+            print(f"{num1} / {num2} = {divide(num1, num2)}")
+
+    else:
+        print("Invalid input")
+
+# Run the calculator
+calculator()
+```
+
+### Features:
+- Prompts the user to select an operation (addition, subtraction, multiplication, or division).
+- Accepts two numerical inputs from the user.
+- Displays the result of the selected operation.
+- Handles division by zero with an error message.
+
+You can run this code in any Python environment.
+Response Time: 14499.30 ms
+
+User Input: hi
+AI Response: Hi! How's it going?
+Response Time: 6324.98 ms
+
+User Input: Nice
+AI Response: Glad you liked it! Let me know if you need help with anything else.
+Response Time: 7386.63 ms
+

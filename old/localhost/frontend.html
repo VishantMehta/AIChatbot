@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Chat</title>
-  <link href="aifrontend.css" rel="stylesheet">
+  <link href="frontend.css" rel="stylesheet">
+  <!-- <style>
+    /
+  </style> -->
 </head>
 <body>
   <div id="container">
@@ -27,15 +30,13 @@
       e.preventDefault();
       handleSendMessage();
     });
-
     const handleSendMessage = async () => {
       const input = inputField.value.trim();
       if (input === "") return;
       displayMessage(input, 'user');
-      inputField.value = '';
+      inputField.value = ''; 
       try {
-        // Update the URL to match the Netlify serverless function
-        const response = await fetch('/api/ask', {
+        const response = await fetch('http://localhost:3000/api/ask', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -60,9 +61,9 @@
       msgDiv.classList.add('message', type);
       msgDiv.textContent = message;
       chatbox.appendChild(msgDiv);
-      chatbox.scrollTop = chatbox.scrollHeight;
+      chatbox.scrollTop = chatbox.scrollHeight; //bottom tk scroll karne ke lie
     };
-
+    //word to word response dene ke lie
     const displayAIResponseWordByWord = (message) => {
       const words = message.split(' ');
       let index = 0;
@@ -73,9 +74,10 @@
         if (index < words.length) {
           msgDiv.textContent += words[index] + ' ';
           index++;
-          setTimeout(typeWord, 100);
-        } else {
-          chatbox.scrollTop = chatbox.scrollHeight;
+          setTimeout(typeWord, 100); //delayy in typing 
+        } 
+        else {
+          chatbox.scrollTop = chatbox.scrollHeight; 
         }
       };
 
