@@ -1,9 +1,7 @@
-const serverless = require('serverless-http');
-const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-const { performance } = require('perf_hooks');
-const GPT4js = require('gpt4js');
+import GPT4js from "gpt4js";
+import { createHandler } from 'serverless-http';
+import express from "express";
+import cors from "cors";
 
 const app = express();
 app.use(cors());
@@ -14,17 +12,8 @@ const options = {
   model: "gpt-4o-free",
 };
 
-const logResponseTime = (input, response, responseTime) => {
-  const logMessage = `User Input: ${input}\nAI Response: ${response}\nResponse Time: ${responseTime.toFixed(2)} ms\n\n`;
-  fs.appendFile("response_logs.txt", logMessage, (err) => {
-    if (err) {
-      console.error("Error writing to log file:", err);
-    }
-  });
-};
-
-app.post("/api/ask", async (req, res) => {
-  const { input } = req.body;
+app.post("/", async (req, res) => {
+  const { input } = req.body; 
   if (!input) {
     return res.status(400).json({ error: "Input is required" });
   }
@@ -33,14 +22,12 @@ app.post("/api/ask", async (req, res) => {
 
   try {
     const provider = GPT4js.createProvider(options.provider);
-    const startTime = performance.now();
     const text = await provider.chatCompletion(messages, options);
-    const responseTime = performance.now() - startTime;
-    logResponseTime(input, text, responseTime);
-    res.json({ response: text, responseTime: responseTime.toFixed(2) });
+    res.json({ response: text });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
-module.exports.handler = serverless(app);
+
+export default createHandler(app);

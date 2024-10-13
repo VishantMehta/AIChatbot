@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ai-integration-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node functions/ask.js
+    autoDeploy: true
+
+  - type: static
+    name: ai-integration-frontend
+    publishPath: public
+    autoDeploy: true
