@@ -1,6 +1,6 @@
 Live on - https://aiintegrationtest.onrender.com/
 
-To be run on local machine
+To run on local machine
 Step 1:
   Clone the repo and get the old folder in seperate directory(folder named --> to run on local host)\
 Step 2:
