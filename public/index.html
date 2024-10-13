@@ -34,7 +34,6 @@
       displayMessage(input, 'user');
       inputField.value = '';
       try {
-        // Update the URL to match the Netlify serverless function
         const response = await fetch('/.netlify/functions/ask', {
           method: 'POST',
           headers: {
@@ -60,7 +59,7 @@
       msgDiv.classList.add('message', type);
       msgDiv.textContent = message;
       chatbox.appendChild(msgDiv);
-      chatbox.scrollTop = chatbox.scrollHeight;
+      chatbox.scrollTop = chatbox.scrollHeight; 
     };
 
     const displayAIResponseWordByWord = (message) => {
@@ -73,12 +72,11 @@
         if (index < words.length) {
           msgDiv.textContent += words[index] + ' ';
           index++;
-          setTimeout(typeWord, 100);
+          setTimeout(typeWord, 100); 
         } else {
-          chatbox.scrollTop = chatbox.scrollHeight;
+          chatbox.scrollTop = chatbox.scrollHeight; 
         }
       };
-
       typeWord();
     };
   </script>
