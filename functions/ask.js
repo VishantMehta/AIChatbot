@@ -1,6 +1,12 @@
 import GPT4js from "gpt4js";
+import express from "express";
+import cors from "cors";
 import fs from "fs";
-import { performance } from "perf_hooks";
+import { performance } from "perf_hooks"; 
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 const options = {
   provider: "Nextway",
@@ -15,34 +21,27 @@ const logResponseTime = (input, response, responseTime) => {
     }
   });
 };
+app.post("/api/ask", async (req, res) => {
+  const { input } = req.body;
+  if (!input) {
+    return res.status(400).json({ error: "Input is required" });
+  }
 
-export const handler = async (event) => {
+  const messages = [{ role: "user", content: input }];
+
   try {
-    const { input } = JSON.parse(event.body);
-    if (!input) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Input is required" }),
-      };
-    }
-
-    const messages = [{ role: "user", content: input }];
-
     const provider = GPT4js.createProvider(options.provider);
     const startTime = performance.now();
     const text = await provider.chatCompletion(messages, options);
     const responseTime = performance.now() - startTime;
     logResponseTime(input, text, responseTime);
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ response: text, responseTime: responseTime.toFixed(2) }),
-    };
+    res.json({ response: text, responseTime: responseTime.toFixed(2) });
   } catch (error) {
-    console.error("Error:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Something went wrong" }),
-    };
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Something went wrong while processing your request. Please try again later." });
   }
-};
+});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
