@@ -4,6 +4,7 @@ import GPT4js from "gpt4js";
 import fs from "fs";
 import { performance } from "perf_hooks";
 import path from "path"; 
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -24,20 +25,31 @@ const logResponseTime = (input, response, responseTime) => {
   });
 };
 
+const chatHistories = new Map();
+
 app.post("/api/ask", async (req, res) => {
-  const { input } = req.body; 
+  const { input, sessionId } = req.body;
   if (!input) {
     return res.status(400).json({ error: "Input is required" });
   }
 
-  const messages = [{ role: "user", content: input }];
+  const history = chatHistories.get(sessionId) || [];
+  history.push({ role: "user", content: input });
+
+  if (history.length > 10) {
+    history.shift();
+  }
 
   try {
     const provider = GPT4js.createProvider(options.provider);
-    const startTime = performance.now(); 
-    const text = await provider.chatCompletion(messages, options);
-    const responseTime = performance.now() - startTime; 
-    logResponseTime(input, text, responseTime); 
+    const startTime = performance.now();
+    const text = await provider.chatCompletion(history, options);
+    const responseTime = performance.now() - startTime;
+
+    logResponseTime(input, text, responseTime);
+    history.push({ role: "assistant", content: text });
+    chatHistories.set(sessionId, history);
+
     res.json({ response: text, responseTime: responseTime.toFixed(2) });
   } catch (error) {
     console.error("Error:", error);
@@ -49,7 +61,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
 });
 
-const PORT = process.env.PORT || 10000; 
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

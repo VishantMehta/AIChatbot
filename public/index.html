@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="aifrontend.css" rel="stylesheet">
 </head>
 <body>
@@ -22,6 +23,7 @@
     const chatbox = document.getElementById('chatbox');
     const inputField = document.getElementById('input');
     const chatForm = document.getElementById('chatForm');
+    const sessionId = Math.random().toString(36).substr(2, 9);
 
     chatForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -32,14 +34,14 @@
       const input = inputField.value.trim();
       if (input === "") return;
       displayMessage(input, 'user');
-      inputField.value = ''; 
+      inputField.value = '';
       try {
-        const response = await fetch('/api/ask', {  // Update this line to point to your API endpoint
+        const response = await fetch('/api/ask', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ input }),
+          body: JSON.stringify({ input, sessionId }),
         });
 
         const data = await response.json();
@@ -59,7 +61,7 @@
       msgDiv.classList.add('message', type);
       msgDiv.textContent = message;
       chatbox.appendChild(msgDiv);
-      chatbox.scrollTop = chatbox.scrollHeight; // Scroll to the bottom
+      chatbox.scrollTop = chatbox.scrollHeight;
     };
 
     const displayAIResponseWordByWord = (message) => {
@@ -72,9 +74,9 @@
         if (index < words.length) {
           msgDiv.textContent += words[index] + ' ';
           index++;
-          setTimeout(typeWord, 100); // Delay in typing 
+          setTimeout(typeWord, 100);
         } else {
-          chatbox.scrollTop = chatbox.scrollHeight; 
+          chatbox.scrollTop = chatbox.scrollHeight;
         }
       };
       typeWord();
