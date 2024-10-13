@@ -1,16 +1,20 @@
-import GPT4js from "gpt4js";
 import express from "express";
 import cors from "cors";
+import GPT4js from "gpt4js";
 import fs from "fs";
 import { performance } from "perf_hooks";
+import path from "path"; 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 const options = {
   provider: "Nextway",
   model: "gpt-4o-free",
 };
+
 const logResponseTime = (input, response, responseTime) => {
   const logMessage = `User Input: ${input}\nAI Response: ${response}\nResponse Time: ${responseTime.toFixed(2)} ms\n\n`;
   fs.appendFile("response_logs.txt", logMessage, (err) => {
@@ -41,7 +45,11 @@ app.post("/api/ask", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 10000; 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -34,7 +34,7 @@
       displayMessage(input, 'user');
       inputField.value = ''; 
       try {
-        const response = await fetch('/functions/ask', {  // Update to point to the functions endpoint
+        const response = await fetch('/api/ask', {  // Update this line to point to your API endpoint
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
