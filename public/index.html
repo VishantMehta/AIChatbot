@@ -10,6 +10,8 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
+      background-color: #f7fafc;
+      color: #2d3748; 
     }
     @keyframes fade-in {
       from { opacity: 0; }
@@ -18,27 +20,34 @@
     .animate-fade-in {
       animation: fade-in 0.3s ease-out;
     }
-    /* Responsive for mobile */
     @media (max-width: 640px) {
       #container {
         height: 100vh;
         max-height: 100vh;
+        padding-bottom: 80px; /*prevent input overlap on mobile*/
       }
       #chatbox {
-        max-height: calc(100vh - 128px); /*footer and header i height adjust kari h*/
+        max-height: calc(100vh - 160px); /*adjusting header and footer height */
+      }
+    }
+    @media (min-width: 641px) { /*for desktop*/
+      #container {
+        height: 90vh; 
+      }
+      #chatbox {
+        max-height: calc(90vh - 160px); 
       }
     }
   </style>
 </head>
-<body class="bg-gray-100 flex justify-center items-center h-screen px-4">
+<body class="flex justify-center items-center h-screen px-4">
   <div id="container" class="w-full max-w-lg bg-white rounded-lg shadow-lg overflow-hidden flex flex-col">
     <div id="header" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 text-center text-lg font-semibold tracking-wide">
       AI Chatbot
     </div>
     <div id="chatbox" class="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4">
-    
     </div>
-    <div id="inputContainer" class="p-3 bg-white flex items-center">
+    <div id="inputContainer" class="p-3 bg-white flex items-center w-full">
       <form id="chatForm" class="flex w-full" onsubmit="return false;">
         <input type="text" id="input" class="flex-grow p-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600 transition" placeholder="Ask something..." required autocomplete="off">
         <button id="sendButton" class="ml-3 px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600" type="submit">
@@ -47,9 +56,7 @@
       </form>
     </div>
   </div>
-
-  <script src="frontend.js">  </script>
-
+  <script src="frontend.js"></script>
 
 </body>
 </html>
