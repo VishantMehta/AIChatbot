@@ -36,7 +36,7 @@ app.post("/api/ask", async (req, res) => {
   const history = chatHistories.get(sessionId) || [];
   history.push({ role: "user", content: input });
 
-  if (history.length > 10) {
+  if (history.length > 4) {
     history.shift();
   }
 
