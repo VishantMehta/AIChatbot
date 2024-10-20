@@ -1,4 +1,7 @@
 <h1><b>Live on - https://aiintegrationtest.onrender.com</b></h1>
+<h4>Use these in your frontend to fetch answer from this bot :-<br>
+1. https://ai-chatbott-six.vercel.app/api/ask <br>
+2. https://aiintegrationtest.onrender.com/api/ask </h4>
 
 <h1>To run on local machine</h1>
 
