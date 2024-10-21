@@ -6,14 +6,9 @@
       "use": "@vercel/node"
     }
   ],
-  "functions": {
-    "functions/ask.js": {
-      "maxDuration": 60
-    }
-  },
   "routes": [
     {
-      "src": "/api/ask",
+      "src": "/api/(.*)",
       "dest": "/functions/ask.js"
     }
   ]
