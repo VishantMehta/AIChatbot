@@ -1,0 +1,14 @@
+[build]
+  command = "npm install"
+  publish = "dist" # Change this to the directory where your build output is located
+
+[[plugins]]
+  package = "@netlify/plugin-functions-core"
+
+[functions]
+  directory = "functions"
+  node_bundler = "esbuild" # Optional: Can use esbuild or other bundlers
+
+[[functions]]
+  name = "ask"
+  path = "functions/ask.js"
