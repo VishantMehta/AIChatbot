@@ -7,13 +7,13 @@
     }
   ],
   "functions": {
-    "api/ask.js": {
-      "maxDuration": 60 
+    "functions/ask.js": {
+      "maxDuration": 60
     }
   },
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/ask",
       "dest": "/functions/ask.js"
     }
   ]
